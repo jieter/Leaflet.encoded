@@ -16,24 +16,24 @@ After loading ```leaflet.js```, ```src/Polyline.encoded.js``` should be included
 ## Encoding
 
 ```javascript
-	var latlngs = [
-		new L.LatLng(38.5, -120.5),
-		new L.LatLng(40.7, -120.95),
-		new L.LatLng(43.252, -126.453)
-	];
-	var polyline = new L.Polyline(latlngs);
+var latlngs = [
+	new L.LatLng(38.5, -120.5),
+	new L.LatLng(40.7, -120.95),
+	new L.LatLng(43.252, -126.453)
+];
+var polyline = new L.Polyline(latlngs);
 
-	//prints "_p~iF~cn~U_ulLn{vA_mqNvxq`@"
-	console.log(polyline.encodePath());
+//prints "_p~iF~cn~U_ulLn{vA_mqNvxq`@" to the console
+console.log(polyline.encodePath());
 ```
 
 ## Decoding
 ```javascript
-	var encoded = "_p~iF~cn~U_ulLn{vA_mqNvxq`@";
-	var polyline = L.Polyline.fromEncoded(encoded);
+var encoded = "_p~iF~cn~U_ulLn{vA_mqNvxq`@";
+var polyline = L.Polyline.fromEncoded(encoded);
 
-	// prints an array of 3 LatLng objects.
-	console.log(polyline.getLatLngs());
+// prints an array of 3 LatLng objects.
+console.log(polyline.getLatLngs());
 ```
 
 ## Todo
