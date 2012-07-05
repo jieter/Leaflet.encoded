@@ -1,9 +1,11 @@
 /*
  * L.PolylineUtil contains utilify functions for polylines, two methods
- * are added to the L.Polyline object to support 
+ * are added to the L.Polyline object to support creation of polylines
+ * from an encoded string and converting existing polylines to an
+ * encoded string.
  *
- *  - L.Polyline.fromEncoded(encoded [, options])
- *  - L.Polyline.encodePath()
+ *  - L.Polyline.fromEncoded(encoded [, options]) returns a L.Polyline
+ *  - L.Polyline.encodePath() returns a string
  *
  * Actual code from:
  * http://facstaff.unca.edu/mcmcclur/GoogleMaps/EncodePolyline/
