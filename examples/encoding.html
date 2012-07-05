@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Leaflet Polyline.encodePath()</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="lib/leaflet/dist/leaflet.css" />
+	<!--[if lte IE 8]><link rel="stylesheet" href="../dist/leaflet.ie.css" /><![endif]-->
+</head>
+<body>
+	<div id="map" style="width: 600px; height: 400px"></div>
+	<pre id="encoded" style= "width: 600px; height: 20px; padding: 10px; font-size: 20px;"><strong>Encoded:</strong> </pre>
+
+	<script src="lib/leaflet/dist/leaflet-src.js"></script>
+	<script src="../src/Polyline.encoded.js"></script>
+	<script>
+		var map = new L.Map('map');
+		var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
+			cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
+			cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution});
+
+		map.addLayer(cloudmade);
+
+		var latlngs=[
+			new L.LatLng(38.5, -120.5),
+			new L.LatLng(40.7, -120.95),
+			new L.LatLng(43.252, -126.453)
+		];
+		var polyline = new L.Polyline(latlngs);
+		
+		map.addLayer(polyline);
+		map.fitBounds(polyline.getBounds());
+
+		console.log(polyline.encodePath());
+
+		L.DomUtil.get("encoded").innerHTML += polyline.encodePath();
+	</script>
+</body>
+</html>
