@@ -1,12 +1,13 @@
-# Support encoded polylines in Leaflet #
+# Support encoded polylines in Leaflet
+--------------------------------------
 
 This Leaflet plugin extends the [Leaflet](https://github.com/CloudMade/Leaflet) API with functions to encode en decode Google maps polyline encoding. It is just a convenient way to use the algorithm from http://facstaff.unca.edu/mcmcclur/GoogleMaps/EncodePolyline/ in Leaflet.
 
 # Provided methods #
 <table>
-<tr><td><code>L.PolylineUtil.encode(latlngs)</code></td><td>Encode an array of LatLng objects.</td></tr>
-<tr><td><code>L.PolylineUtil.decode(encoded)</code></td><td>Decode a string to an array of LatLng objects.</td></tr>
-<tr><td><code>L.Polyline.fromEncoded(encoded [, options])</code></td><td>Construct a Polyline from a string, with optional options object.</td></tr>
+<tr><td><code>L.PolylineUtil.encode(latlngs)</code></td><td>Encode an array of <code>L.LatLng</code> objects.</td></tr>
+<tr><td><code>L.PolylineUtil.decode(encoded)</code></td><td>Decode the string <code>encoded</code> to an array of <code>L.LatLng</code> objects.</td></tr>
+<tr><td><code>L.Polyline.fromEncoded(encoded [, options])</code></td><td>Construct a <code>L.Polyline</code> from a string, with optional <code>options</code> object.</td></tr>
 <tr><td><code>L.Polyline.encodePath()</code></td><td>Return an encoded string for the current Polyline.</td></tr>
 </table>
 
