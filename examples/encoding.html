@@ -5,34 +5,38 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<link rel="stylesheet" href="lib/leaflet/dist/leaflet.css" />
-	<!--[if lte IE 8]><link rel="stylesheet" href="../dist/leaflet.ie.css" /><![endif]-->
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.css" />
+	<!--[if lte IE 8]>
+	    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.ie.css" />
+	<![endif]-->
+
+	<script src="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.js"></script>
 </head>
 <body>
 	<div id="map" style="width: 600px; height: 400px"></div>
 	<pre id="encoded" style= "width: 600px; height: 20px; padding: 10px; font-size: 20px;"><strong>Encoded:</strong> </pre>
 
-	<script src="lib/leaflet/dist/leaflet-src.js"></script>
 	<script src="../src/Polyline.encoded.js"></script>
 	<script>
 		var map = new L.Map('map');
-		var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
-			cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
-			cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution});
 
-		map.addLayer(cloudmade);
+		var cloudmade = L.tileLayer('http://{s}.tile.cloudmade.com/{key}/{styleId}/256/{z}/{x}/{y}.png', {
+			attribution: 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
+			maxZoom: 18,
+			key: 'BC9A493B41014CAABB98F0471D759707',
+			styleId: 997
+		}).addTo(map);
 
 		var latlngs=[
 			new L.LatLng(38.5, -120.5),
 			new L.LatLng(40.7, -120.95),
 			new L.LatLng(43.252, -126.453)
 		];
-		var polyline = new L.Polyline(latlngs);
-		
-		map.addLayer(polyline);
+		var polyline = new L.Polyline(latlngs).addTo(map);
+
 		map.fitBounds(polyline.getBounds());
 
-		console.log(polyline.encodePath());
+		//console.log(polyline.encodePath());
 
 		L.DomUtil.get("encoded").innerHTML += polyline.encodePath();
 	</script>
