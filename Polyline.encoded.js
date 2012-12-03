@@ -14,25 +14,35 @@
 /*jshint browser:true, debug: true, strict:false, globalstrict:false, indent:4, white:true, smarttabs:true*/
 /*global L:true, console:true*/
 
-// Inject functionality into L.Polyline
-if (!(L.Polyline.prototype.statics && L.Polyline.prototype.statics.fromEncoded)) {
-	L.Polyline = L.Polyline.extend({
-		statics: {
-			fromEncoded: function (encoded, options) {
-				return new L.Polyline(L.PolylineUtil.decode(encoded), options);
-			}
-		}
-	});
-}
 
-if (!L.Polyline.prototype.encodePath) {
-	L.Polyline.prototype.encodePath =
-		function () {
-			return L.PolylineUtil.encode(this.getLatLngs());
+// Inject functionality into Leaflet
+(function (L) {
+	if (!(L.Polyline.prototype.fromEncoded)) {
+		L.Polyline.fromEncoded = function (encoded, options) {
+			return new L.Polyline(L.PolylineUtil.decode(encoded), options);
 		};
-}
+	}
+	if (!(L.Polygon.prototype.fromEncoded)) {
+		L.Polygon.fromEncoded = function (encoded, options) {
+			return new L.Polygon(L.PolylineUtil.decode(encoded), options);
+		};
+	}
 
-//utility functions.
+	var encodeMixin = {
+		encodePath: function () {
+			return L.PolylineUtil.encode(this.getLatLngs());
+		}
+	};
+
+	if (!L.Polyline.prototype.encodePath) {
+		L.Polyline.include(encodeMixin);
+	}
+	if (!L.Polygon.prototype.encodePath) {
+		L.Polygon.include(encodeMixin);
+	}
+})(L);
+
+// Utility functions.
 L.PolylineUtil = {};
 
 L.PolylineUtil.encode = function (latlngs) {
