@@ -8,8 +8,11 @@
  *  - L.Polyline.encodePath() returns a string
  *
  * Actual code from:
- * http://facstaff.unca.edu/mcmcclur/GoogleMaps/EncodePolyline/
+ * http://facstaff.unca.edu/mcmcclur/GoogleMaps/EncodePolyline/\
  */
+
+/*jshint browser:true, debug: true, strict:false, globalstrict:false, indent:4, white:true, smarttabs:true*/
+/*global L:true, console:true*/
 
 // Inject functionality into L.Polyline
 if (!(L.Polyline.prototype.statics && L.Polyline.prototype.statics.fromEncoded)) {
@@ -32,13 +35,13 @@ if (!L.Polyline.prototype.encodePath) {
 //utility functions.
 L.PolylineUtil = {};
 
-L.PolylineUtil.encode = function(latlngs) {
+L.PolylineUtil.encode = function (latlngs) {
 	var i, dlat, dlng;
 	var plat = 0;
 	var plng = 0;
 	var encoded_points = "";
 
-	for(i = 0; i < latlngs.length; i++) {
+	for (i = 0; i < latlngs.length; i++) {
 		var lat = latlngs[i].lat;
 		var lng = latlngs[i].lng;
 		var late5 = Math.floor(lat * 1e5);
@@ -48,7 +51,7 @@ L.PolylineUtil.encode = function(latlngs) {
 		plat = late5;
 		plng = lnge5;
 		encoded_points +=
-			L.PolylineUtil.encodeSignedNumber(dlat) + 
+			L.PolylineUtil.encodeSignedNumber(dlat) +
 			L.PolylineUtil.encodeSignedNumber(dlng);
 	}
 	return encoded_points;
@@ -56,7 +59,7 @@ L.PolylineUtil.encode = function(latlngs) {
 
 // This function is very similar to Google's, but I added
 // some stuff to deal with the double slash issue.
-L.PolylineUtil.encodeNumber = function(num) {
+L.PolylineUtil.encodeNumber = function (num) {
 	var encodeString = "";
 	var nextValue, finalValue;
 	while (num >= 0x20) {
@@ -70,7 +73,7 @@ L.PolylineUtil.encodeNumber = function(num) {
 };
 
 // This one is Google's verbatim.
-L.PolylineUtil.encodeSignedNumber = function(num) {
+L.PolylineUtil.encodeSignedNumber = function (num) {
 	var sgn_num = num << 1;
 	if (num < 0) {
 		sgn_num = ~(sgn_num);
@@ -78,7 +81,7 @@ L.PolylineUtil.encodeSignedNumber = function(num) {
 	return (L.PolylineUtil.encodeNumber(sgn_num));
 };
 
-L.PolylineUtil.decode = function(encoded) {
+L.PolylineUtil.decode = function (encoded) {
 	var len = encoded.length;
 	var index = 0;
 	var latlngs = [];
