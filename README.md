@@ -11,11 +11,12 @@ This Leaflet plugin extends the [Leaflet](https://github.com/CloudMade/Leaflet) 
 </tr>
 <tr>
 	<td><code>L.PolylineUtil.encode(latlngs)</code></td>
-	<td>Encode an array of <code>L.LatLng</code> objects.</td>
+	<td>Encode an array of <code>L.LatLng</code> objects,
+	or an array of arrays.</td>
 </tr>
 <tr>
 	<td><code>L.PolylineUtil.decode(encoded)</code></td>
-	<td>Decode the string <code>encoded</code> to an array of <code>L.LatLng</code> objects.</td>
+	<td>Decode the string <code>encoded</code> to an array of <code>[lat, lng]</code>-arrays.</td>
 </tr>
 
 <tr>
@@ -49,9 +50,9 @@ After loading ```leaflet.js```, ```src/Polyline.encoded.js``` should be included
 
 ```javascript
 var latlngs = [
-	new L.LatLng(38.5, -120.5),
-	new L.LatLng(40.7, -120.95),
-	new L.LatLng(43.252, -126.453)
+	[38.5, -120.5],
+	[40.7, -120.95],
+	[43.252, -126.453]
 ];
 var polyline = new L.Polyline(latlngs);
 

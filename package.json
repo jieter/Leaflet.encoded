@@ -1,6 +1,6 @@
 {
   "name": "polyline-encoded",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Encoding and decoding of Google's polyline encoding format",
   "main": "Polyline.encoded.js",
   "directories": {
