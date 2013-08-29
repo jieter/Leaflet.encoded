@@ -28,16 +28,17 @@
 			}
 		).addTo(map);
 
-		var latlngs=[
-			new L.LatLng(38.5, -120.5),
-			new L.LatLng(40.7, -120.95),
-			new L.LatLng(43.252, -126.453)
+		var latlngs = [
+			[38.5, -120.5],
+			[40.7, -120.95],
+			[43.252, -126.453]
 		];
+
 		var polyline = new L.Polyline(latlngs).addTo(map);
 
 		map.fitBounds(polyline.getBounds());
 
-		L.DomUtil.get("encoded").innerHTML += polyline.encodePath();
+		L.DomUtil.get('encoded').innerHTML += polyline.encodePath();
 	</script>
 </body>
 </html>
