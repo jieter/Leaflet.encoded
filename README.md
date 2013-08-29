@@ -67,3 +67,10 @@ var polyline = L.Polyline.fromEncoded(encoded);
 // prints an array of 3 LatLng objects.
 console.log(polyline.getLatLngs());
 ```
+
+# Node package
+You can use `encode()` and `decode()` in your Nodejs scripts:
+
+`npm install polyline-encoded`
+
+And then just `require('polyline-encoded')`

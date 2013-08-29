@@ -1,0 +1,29 @@
+{
+  "name": "polyline-encoded",
+  "version": "0.0.1",
+  "description": "Encoding and decoding of Google's polyline encoding format",
+  "main": "Polyline.encoded.js",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jieter/Leaflet.encoded.git"
+  },
+  "keywords": [
+    "polyline",
+    "encoding"
+  ],
+  "author": "Jan Pieter Waagmeester",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "b1f8a531c2a69a9baaba2ff7862e418593838c48",
+  "devDependencies": {
+    "expect.js": "~0.2.0",
+    "mocha": "~1.12.0"
+  }
+}
