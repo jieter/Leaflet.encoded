@@ -54,7 +54,7 @@ var latlngs = [
 	[40.7, -120.95],
 	[43.252, -126.453]
 ];
-var polyline = new L.Polyline(latlngs);
+var polyline = L.polyline(latlngs);
 
 //prints "_p~iF~cn~U_ulLn{vA_mqNvxq`@" to the console
 console.log(polyline.encodePath());
