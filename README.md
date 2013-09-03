@@ -3,7 +3,7 @@
 
 This Leaflet plugin extends the [Leaflet](https://github.com/CloudMade/Leaflet) API with functions to encode en decode Google maps polyline encoding. It is just a convenient way to use the algorithm from http://facstaff.unca.edu/mcmcclur/GoogleMaps/EncodePolyline/ in Leaflet.
 
-# Provided methods #
+### Provided methods
 
 <table>
 <tr>
@@ -43,10 +43,10 @@ This Leaflet plugin extends the [Leaflet](https://github.com/CloudMade/Leaflet) 
 
 </table>
 
-# Code examples
+### Code examples
 After loading ```leaflet.js```, ```src/Polyline.encoded.js``` should be included.
 
-## Encoding
+### Encoding
 
 ```javascript
 var latlngs = [
@@ -60,7 +60,7 @@ var polyline = new L.Polyline(latlngs);
 console.log(polyline.encodePath());
 ```
 
-## Decoding
+#### Decoding
 ```javascript
 var encoded = "_p~iF~cn~U_ulLn{vA_mqNvxq`@";
 var polyline = L.Polyline.fromEncoded(encoded);
@@ -69,9 +69,14 @@ var polyline = L.Polyline.fromEncoded(encoded);
 console.log(polyline.getLatLngs());
 ```
 
-# Node package
+### Node package
 You can use `encode()` and `decode()` in your Nodejs scripts:
 
 `npm install polyline-encoded`
 
-And then just `require('polyline-encoded')`
+```javascript
+var polylineEncoded = require('polyline-encoded');
+
+var encoded = "_p~iF~cn~U_ulLn{vA_mqNvxq`@";
+var latlngs = polylineEncoded.decode(encoded);
+```
