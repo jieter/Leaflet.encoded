@@ -78,12 +78,14 @@
 			return encoded_points;
 		},
 
-		decode: function (encoded) {
+		decode: function (encoded, precision) {
 			var len = encoded.length;
 			var index = 0;
 			var latlngs = [];
 			var lat = 0;
 			var lng = 0;
+			
+			precision = Math.pow(10, -precision);
 
 			while (index < len) {
 				var b;
@@ -107,7 +109,7 @@
 				var dlng = ((result & 1) ? ~(result >> 1) : (result >> 1));
 				lng += dlng;
 
-				latlngs.push([lat * 1e-5, lng * 1e-5]);
+				latlngs.push([lat * precision, lng * precision]);
 			}
 
 			return latlngs;
