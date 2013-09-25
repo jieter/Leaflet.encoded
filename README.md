@@ -10,12 +10,12 @@ This Leaflet plugin extends the [Leaflet](https://github.com/CloudMade/Leaflet) 
 	<th colspan="2">Utility methods</th>
 </tr>
 <tr>
-	<td><code>L.PolylineUtil.encode(latlngs)</code></td>
+	<td><code>L.PolylineUtil.encode(latlngs [, precision])</code></td>
 	<td>Encode an array of <code>L.LatLng</code> objects,
 	or an array of arrays.</td>
 </tr>
 <tr>
-	<td><code>L.PolylineUtil.decode(encoded)</code></td>
+	<td><code>L.PolylineUtil.decode(encoded [, precision])</code></td>
 	<td>Decode the string <code>encoded</code> to an array of <code>[lat, lng]</code>-arrays.</td>
 </tr>
 
@@ -68,6 +68,16 @@ var polyline = L.Polyline.fromEncoded(encoded);
 // prints an array of 3 LatLng objects.
 console.log(polyline.getLatLngs());
 ```
+
+Use a decoding precision of 6 to decode OSRM Routing Engine geometries
+```javascript
+var encoded = "_izlhA~pvydF_{geC~{mZ_kwzCn`{nI";
+var polyline = new L.Polyline(PolylineUtil.decode(encoded, 6));
+
+// prints an array of 3 LatLng objects.
+console.log(polyline.getLatLngs());
+```
+
 
 ### Node package
 You can use `encode()` and `decode()` in your Nodejs scripts:
