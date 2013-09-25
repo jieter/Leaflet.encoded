@@ -58,17 +58,21 @@
 
 
 	var PolylineUtil = {
-		encode: function (latlngs) {
+		encode: function (latlngs, precision) {
 			var i, dlat, dlng;
 			var plat = 0;
 			var plng = 0;
 			var encoded_points = "";
 
+			if (typeof(precision) === 'undefined') precision = 5;
+
+			precision = Math.pow(10, precision);
+
 			for (i = 0; i < latlngs.length; i++) {
 				var lat = getLat(latlngs[i]);
 				var lng = getLng(latlngs[i]);
-				var late5 = Math.floor(lat * 1e5);
-				var lnge5 = Math.floor(lng * 1e5);
+				var late5 = Math.floor(lat * precision);
+				var lnge5 = Math.floor(lng * precision);
 				dlat = late5 - plat;
 				dlng = lnge5 - plng;
 				plat = late5;
@@ -78,12 +82,16 @@
 			return encoded_points;
 		},
 
-		decode: function (encoded) {
+		decode: function (encoded, precision) {
 			var len = encoded.length;
 			var index = 0;
 			var latlngs = [];
 			var lat = 0;
 			var lng = 0;
+
+			if (typeof(precision) === 'undefined') precision = 5;
+
+			precision = Math.pow(10, -precision);
 
 			while (index < len) {
 				var b;
@@ -107,7 +115,7 @@
 				var dlng = ((result & 1) ? ~(result >> 1) : (result >> 1));
 				lng += dlng;
 
-				latlngs.push([lat * 1e-5, lng * 1e-5]);
+				latlngs.push([lat * precision, lng * precision]);
 			}
 
 			return latlngs;
