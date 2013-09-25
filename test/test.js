@@ -1,3 +1,6 @@
+'use strict';
+/* global describe:true, it:true */
+
 var polyUtil = require('../Polyline.encoded.js');
 var expect = require('expect.js');
 
@@ -18,7 +21,7 @@ describe('Polyline', function () {
 		expect(polyUtil.encode(latlngs)).to.eql(encoded);
 	});
 
-	it('encodes6', function () {
+	it('encodes with precision = 6', function () {
 		expect(polyUtil.encode(latlngs, 6)).to.eql(encoded6);
 	});
 
@@ -30,7 +33,7 @@ describe('Polyline', function () {
 		}
 	});
 
-	it('decodes6', function () {
+	it('decodes with precision = 6', function () {
 		var decoded = polyUtil.decode(encoded6, 6);
 
 		for (var i in decoded) {

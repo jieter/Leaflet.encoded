@@ -11,15 +11,15 @@
  * http://facstaff.unca.edu/mcmcclur/GoogleMaps/EncodePolyline/\
  */
 
-/*jshint browser:true, debug: true, strict:false, globalstrict:false, indent:4, white:true, smarttabs:true*/
-/*global L:true, console:true*/
-
-
 (function () {
+	'use strict';
+
+	/* jshint bitwise:false */
+
 	// This function is very similar to Google's, but I added
 	// some stuff to deal with the double slash issue.
 	var encodeNumber = function (num) {
-		var encodeString = "";
+		var encodeString = '';
 		var nextValue, finalValue;
 		while (num >= 0x20) {
 			nextValue = (0x20 | (num & 0x1f)) + 63;
@@ -56,27 +56,24 @@
 		}
 	};
 
-
 	var PolylineUtil = {
 		encode: function (latlngs, precision) {
 			var i, dlat, dlng;
 			var plat = 0;
 			var plng = 0;
-			var encoded_points = "";
+			var encoded_points = '';
 
-			if (typeof(precision) === 'undefined') precision = 5;
-
-			precision = Math.pow(10, precision);
+			precision = Math.pow(10, precision || 5);
 
 			for (i = 0; i < latlngs.length; i++) {
 				var lat = getLat(latlngs[i]);
 				var lng = getLng(latlngs[i]);
-				var late5 = Math.floor(lat * precision);
-				var lnge5 = Math.floor(lng * precision);
-				dlat = late5 - plat;
-				dlng = lnge5 - plng;
-				plat = late5;
-				plng = lnge5;
+				var latFloored = Math.floor(lat * precision);
+				var lngFloored = Math.floor(lng * precision);
+				dlat = latFloored - plat;
+				dlng = lngFloored - plng;
+				plat = latFloored;
+				plng = lngFloored;
 				encoded_points += encodeSignedNumber(dlat) + encodeSignedNumber(dlng);
 			}
 			return encoded_points;
@@ -89,9 +86,7 @@
 			var lat = 0;
 			var lng = 0;
 
-			if (typeof(precision) === 'undefined') precision = 5;
-
-			precision = Math.pow(10, -precision);
+			precision = Math.pow(10, -(precision || 5));
 
 			while (index < len) {
 				var b;
@@ -121,6 +116,7 @@
 			return latlngs;
 		}
 	};
+	/* jshint bitwise:true */
 
 	// Export Node module
 	if (typeof module === 'object' && typeof module.exports === 'object') {
