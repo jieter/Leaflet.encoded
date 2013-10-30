@@ -4,6 +4,8 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-notify');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -26,6 +28,17 @@ module.exports = function(grunt) {
         },
         src: ['test/**/*.js']
       }
+    },
+
+    watch: {
+      scripts: {
+        files: [
+          '*.js',
+          'examples/**/*.js',
+          'test/**/*.js',
+        ],
+        tasks: ['lint', 'test'],
+      },
     }
   });
 
