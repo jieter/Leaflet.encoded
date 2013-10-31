@@ -39,6 +39,7 @@
 		} else {
 			options.precision = options.precision || 5;
 		}
+		options.factor = options.factor || Math.pow(10, options.precision);
 		return options;
 	};
 
@@ -51,13 +52,11 @@
 			var plng = 0;
 			var encoded_points = '';
 
-			var precision = Math.pow(10, options.precision);
-
 			for (i = 0; i < latlngs.length; i++) {
 				var lat = getLat(latlngs[i]);
 				var lng = getLng(latlngs[i]);
-				var latFloored = Math.floor(lat * precision);
-				var lngFloored = Math.floor(lng * precision);
+				var latFloored = Math.floor(lat * options.factor);
+				var lngFloored = Math.floor(lng * options.factor);
 				dlat = latFloored - plat;
 				dlng = lngFloored - plng;
 				plat = latFloored;
@@ -75,8 +74,6 @@
 			var latlngs = [];
 			var lat = 0;
 			var lng = 0;
-
-			var precision = Math.pow(10, -options.precision);
 
 			while (index < len) {
 				var b;
@@ -100,7 +97,7 @@
 				var dlng = ((result & 1) ? ~(result >> 1) : (result >> 1));
 				lng += dlng;
 
-				latlngs.push([lat * precision, lng * precision]);
+				latlngs.push([lat / options.factor, lng / options.factor]);
 			}
 
 			return latlngs;
