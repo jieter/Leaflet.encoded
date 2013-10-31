@@ -14,8 +14,6 @@
 (function () {
 	'use strict';
 
-	/* jshint bitwise:false */
-
 	var fillOptions = function (opt_options) {
 		var options = opt_options || {};
 		if (typeof options === 'number') {
@@ -122,6 +120,8 @@
 			return numbers;
 		},
 
+		/* jshint bitwise:false */
+
 		encodeSignedIntegers: function(numbers) {
 			for (var i = 0, len = numbers.length; i < len; ++i) {
 				var num = numbers[i];
@@ -191,8 +191,9 @@
 			encoded += (String.fromCharCode(value));
 			return encoded;
 		}
+
+		/* jshint bitwise:true */
 	};
-	/* jshint bitwise:true */
 
 	// Export Node module
 	if (typeof module === 'object' && typeof module.exports === 'object') {
