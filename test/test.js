@@ -87,4 +87,15 @@ describe('Polyline', function () {
 			dimension: 1
 		}).should.eql(signedIntegers);
 	});
+
+	it('decodes floats with dimension = 1', function () {
+		polyUtil.decodeFloats(encodedFloats, {
+			dimension: 1
+		}).should.eql(smallFloats);
+
+		polyUtil.decodeFloats(encodedFloats, {
+			factor: 1e2,
+			dimension: 1
+		}).should.eql(floats);
+	});
 });

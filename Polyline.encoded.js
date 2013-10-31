@@ -116,6 +116,17 @@
 			return this.encodeSignedIntegers(numbers);
 		},
 
+		decodeFloats: function(encoded, opt_options) {
+			var options = fillOptions(opt_options);
+
+			var numbers = this.decodeSignedIntegers(encoded);
+			for (var i = 0, len = numbers.length; i < len; ++i) {
+				numbers[i] /= options.factor;
+			}
+
+			return numbers;
+		},
+
 		encodeSignedIntegers: function(numbers) {
 			for (var i = 0, len = numbers.length; i < len; ++i) {
 				var num = numbers[i];
