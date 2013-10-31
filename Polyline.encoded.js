@@ -16,21 +16,6 @@
 
 	/* jshint bitwise:false */
 
-	var getLat = function (latlng) {
-		if (latlng.lat) {
-			return latlng.lat;
-		} else {
-			return latlng[0];
-		}
-	};
-	var getLng = function (latlng) {
-		if (latlng.lng) {
-			return latlng.lng;
-		} else {
-			return latlng[1];
-		}
-	};
-
 	var fillOptions = function (opt_options) {
 		var options = opt_options || {};
 		if (typeof options === 'number') {
@@ -44,26 +29,18 @@
 	};
 
 	var PolylineUtil = {
-		encode: function (latlngs, opt_options) {
+		encode: function (points, opt_options) {
 			var options = fillOptions(opt_options);
 
-			var i, dlat, dlng;
-			var plat = 0;
-			var plng = 0;
-			var encoded_points = '';
+			var flatPoints = [];
+			for (var i = 0, len = points.length; i < len; ++i) {
+				var point = points[i];
 
-			for (i = 0; i < latlngs.length; i++) {
-				var lat = getLat(latlngs[i]);
-				var lng = getLng(latlngs[i]);
-				var latFloored = Math.floor(lat * options.factor);
-				var lngFloored = Math.floor(lng * options.factor);
-				dlat = latFloored - plat;
-				dlng = lngFloored - plng;
-				plat = latFloored;
-				plng = lngFloored;
-				encoded_points += this.encodeSignedInteger(dlat) + this.encodeSignedInteger(dlng);
+				flatPoints.push(point.lat || point[0]);
+				flatPoints.push(point.lng || point[1]);
 			}
-			return encoded_points;
+
+			return this.encodeDeltas(flatPoints, options);
 		},
 
 		decode: function (encoded, opt_options) {
@@ -101,6 +78,61 @@
 			}
 
 			return latlngs;
+		},
+
+		encodeDeltas: function(numbers, opt_options) {
+			var options = fillOptions(opt_options);
+
+			var lastNumbers = [0, 0];
+
+			var numbersLength = numbers.length;
+			for (var i = 0; i < numbersLength;) {
+				for (var d = 0; d < 2; ++d, ++i) {
+					var num = numbers[i];
+					var delta = num - lastNumbers[d];
+					lastNumbers[d] = num;
+
+					numbers[i] = delta;
+				}
+			}
+
+			return this.encodeFloats(numbers, options);
+		},
+
+		encodeFloats: function(numbers, opt_options) {
+			var options = fillOptions(opt_options);
+
+			for (var i = 0, len = numbers.length; i < len; ++i) {
+				numbers[i] = Math.round(numbers[i] * options.factor);
+			}
+
+			return this.encodeSignedIntegers(numbers);
+		},
+
+		encodeSignedIntegers: function(numbers) {
+			for (var i = 0, len = numbers.length; i < len; ++i) {
+				var num = numbers[i];
+
+				var signedNum = num << 1;
+				if (num < 0) {
+					signedNum = ~(signedNum);
+				}
+
+				numbers[i] = signedNum;
+			}
+
+			return this.encodeUnsignedIntegers(numbers);
+		},
+
+		encodeUnsignedIntegers: function(numbers) {
+			var encoded = '';
+
+			var numbersLength = numbers.length;
+			for (var i = 0; i < numbersLength; ++i) {
+				encoded += this.encodeUnsignedInteger(numbers[i]);
+			}
+
+			return encoded;
 		},
 
 		// This one is Google's verbatim.
