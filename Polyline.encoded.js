@@ -54,10 +54,9 @@
 			var options = fillOptions(opt_options);
 
 			var flatPoints = this.decodeDeltas(encoded, options);
-			var flatPointsLength = flatPoints.length;
 
 			var points = [];
-			for (var i = 0; i + (options.dimension - 1) < flatPointsLength;) {
+			for (var i = 0, len = flatPoints.length; i + (options.dimension - 1) < len;) {
 				var point = [];
 
 				for (var dim = 0; dim < options.dimension; ++dim) {
@@ -75,8 +74,7 @@
 
 			var lastNumbers = [];
 
-			var numbersLength = numbers.length;
-			for (var i = 0; i < numbersLength;) {
+			for (var i = 0, len = numbers.length; i < len;) {
 				for (var d = 0; d < options.dimension; ++d, ++i) {
 					var num = numbers[i];
 					var delta = num - (lastNumbers[d] || 0);
@@ -95,14 +93,11 @@
 			var lastNumbers = [];
 
 			var numbers = this.decodeFloats(encoded, options);
-
-			var numbersLength = numbers.length;
-			for (var i = 0; i < numbersLength;) {
+			for (var i = 0, len = numbers.length; i < len;) {
 				for (var d = 0; d < options.dimension; ++d, ++i) {
 					numbers[i] = lastNumbers[d] = numbers[i] + (lastNumbers[d] || 0);
 				}
 			}
-
 			return numbers;
 		},
 
@@ -130,13 +125,7 @@
 		encodeSignedIntegers: function(numbers) {
 			for (var i = 0, len = numbers.length; i < len; ++i) {
 				var num = numbers[i];
-
-				var signedNum = num << 1;
-				if (num < 0) {
-					signedNum = ~(signedNum);
-				}
-
-				numbers[i] = signedNum;
+				numbers[i] = (num < 0) ? ~(num << 1) : (num << 1);
 			}
 
 			return this.encodeUnsignedIntegers(numbers);
@@ -155,12 +144,9 @@
 
 		encodeUnsignedIntegers: function(numbers) {
 			var encoded = '';
-
-			var numbersLength = numbers.length;
-			for (var i = 0; i < numbersLength; ++i) {
+			for (var i = 0, len = numbers.length; i < len; ++i) {
 				encoded += this.encodeUnsignedInteger(numbers[i]);
 			}
-
 			return encoded;
 		},
 
@@ -187,14 +173,9 @@
 			return numbers;
 		},
 
-		// This one is Google's verbatim.
 		encodeSignedInteger: function (num) {
-			var sgn_num = num << 1;
-			if (num < 0) {
-				sgn_num = ~(sgn_num);
-			}
-
-			return this.encodeUnsignedInteger(sgn_num);
+			num = (num < 0) ? ~(num << 1) : (num << 1);
+			return this.encodeUnsignedInteger(num);
 		},
 
 		// This function is very similar to Google's, but I added
