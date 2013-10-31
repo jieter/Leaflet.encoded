@@ -25,6 +25,7 @@
 			options.precision = options.precision || 5;
 		}
 		options.factor = options.factor || Math.pow(10, options.precision);
+		options.dimension = options.dimension || 2;
 		return options;
 	};
 
@@ -36,8 +37,14 @@
 			for (var i = 0, len = points.length; i < len; ++i) {
 				var point = points[i];
 
-				flatPoints.push(point.lat || point[0]);
-				flatPoints.push(point.lng || point[1]);
+				if (options.dimension === 2) {
+					flatPoints.push(point.lat || point[0]);
+					flatPoints.push(point.lng || point[1]);
+				} else {
+					for (var dim = 0; dim < options.dimension; ++dim) {
+						flatPoints.push(point[dim]);
+					}
+				}
 			}
 
 			return this.encodeDeltas(flatPoints, options);
@@ -83,13 +90,13 @@
 		encodeDeltas: function(numbers, opt_options) {
 			var options = fillOptions(opt_options);
 
-			var lastNumbers = [0, 0];
+			var lastNumbers = [];
 
 			var numbersLength = numbers.length;
 			for (var i = 0; i < numbersLength;) {
-				for (var d = 0; d < 2; ++d, ++i) {
+				for (var d = 0; d < options.dimension; ++d, ++i) {
 					var num = numbers[i];
-					var delta = num - lastNumbers[d];
+					var delta = num - (lastNumbers[d] || 0);
 					lastNumbers[d] = num;
 
 					numbers[i] = delta;
