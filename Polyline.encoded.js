@@ -49,7 +49,7 @@
 				dlng = lngFloored - plng;
 				plat = latFloored;
 				plng = lngFloored;
-				encoded_points += this.encodeSignedNumber(dlat) + this.encodeSignedNumber(dlng);
+				encoded_points += this.encodeSignedInteger(dlat) + this.encodeSignedInteger(dlng);
 			}
 			return encoded_points;
 		},
@@ -92,18 +92,18 @@
 		},
 
 		// This one is Google's verbatim.
-		encodeSignedNumber: function (num) {
+		encodeSignedInteger: function (num) {
 			var sgn_num = num << 1;
 			if (num < 0) {
 				sgn_num = ~(sgn_num);
 			}
 
-			return this.encodeNumber(sgn_num);
+			return this.encodeUnsignedInteger(sgn_num);
 		},
 
 		// This function is very similar to Google's, but I added
 		// some stuff to deal with the double slash issue.
-		encodeNumber: function (num) {
+		encodeUnsignedInteger: function (num) {
 			var value, encoded = '';
 			while (num >= 0x20) {
 				value = (0x20 | (num & 0x1f)) + 63;
