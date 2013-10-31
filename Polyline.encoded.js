@@ -131,6 +131,17 @@
 			return this.encodeUnsignedIntegers(numbers);
 		},
 
+		decodeSignedIntegers: function(encoded) {
+			var numbers = this.decodeUnsignedIntegers(encoded);
+
+			for (var i = 0, len = numbers.length; i < len; ++i) {
+				var num = numbers[i];
+				numbers[i] = (num & 1) ? ~(num >> 1) : (num >> 1);
+			}
+
+			return numbers;
+		},
+
 		encodeUnsignedIntegers: function(numbers) {
 			var encoded = '';
 
@@ -140,6 +151,29 @@
 			}
 
 			return encoded;
+		},
+
+		decodeUnsignedIntegers: function(encoded) {
+			var numbers = [];
+
+			var current = 0;
+			var shift = 0;
+
+			for (var i = 0, len = encoded.length; i < len; ++i) {
+				var b = encoded.charCodeAt(i) - 63;
+
+				current |= (b & 0x1f) << shift;
+
+				if (b < 0x20) {
+					numbers.push(current);
+					current = 0;
+					shift = 0;
+				} else {
+					shift += 5;
+				}
+			}
+
+			return numbers;
 		},
 
 		// This one is Google's verbatim.

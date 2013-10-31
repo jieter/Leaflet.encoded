@@ -77,4 +77,14 @@ describe('Polyline', function () {
 			decoded[i][0].should.be.closeTo(latlngs[i][0], delta);
 		}
 	});
+
+	it('decodes integers with dimension = 1', function () {
+		polyUtil.decodeUnsignedIntegers(encodedUnsignedIntegers, {
+			dimension: 1
+		}).should.eql(unsignedIntegers);
+
+		polyUtil.decodeSignedIntegers(encodedSignedIntegers, {
+			dimension: 1
+		}).should.eql(signedIntegers);
+	});
 });
