@@ -31,14 +31,27 @@
 		}
 	};
 
+	var fillOptions = function (opt_options) {
+		var options = opt_options || {};
+		if (typeof options === 'number') {
+			// Legacy
+			options = { precision: options };
+		} else {
+			options.precision = options.precision || 5;
+		}
+		return options;
+	};
+
 	var PolylineUtil = {
-		encode: function (latlngs, precision) {
+		encode: function (latlngs, opt_options) {
+			var options = fillOptions(opt_options);
+
 			var i, dlat, dlng;
 			var plat = 0;
 			var plng = 0;
 			var encoded_points = '';
 
-			precision = Math.pow(10, precision || 5);
+			var precision = Math.pow(10, options.precision);
 
 			for (i = 0; i < latlngs.length; i++) {
 				var lat = getLat(latlngs[i]);
@@ -54,14 +67,16 @@
 			return encoded_points;
 		},
 
-		decode: function (encoded, precision) {
+		decode: function (encoded, opt_options) {
+			var options = fillOptions(opt_options);
+
 			var len = encoded.length;
 			var index = 0;
 			var latlngs = [];
 			var lat = 0;
 			var lng = 0;
 
-			precision = Math.pow(10, -(precision || 5));
+			var precision = Math.pow(10, -options.precision);
 
 			while (index < len) {
 				var b;
