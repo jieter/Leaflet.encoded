@@ -104,16 +104,15 @@
 		// This function is very similar to Google's, but I added
 		// some stuff to deal with the double slash issue.
 		encodeNumber: function (num) {
-			var encodeString = '';
-			var nextValue, finalValue;
+			var value, encoded = '';
 			while (num >= 0x20) {
-				nextValue = (0x20 | (num & 0x1f)) + 63;
-				encodeString += (String.fromCharCode(nextValue));
+				value = (0x20 | (num & 0x1f)) + 63;
+				encoded += (String.fromCharCode(value));
 				num >>= 5;
 			}
-			finalValue = num + 63;
-			encodeString += (String.fromCharCode(finalValue));
-			return encodeString;
+			value = num + 63;
+			encoded += (String.fromCharCode(value));
+			return encoded;
 		}
 	};
 	/* jshint bitwise:true */
