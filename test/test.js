@@ -1,5 +1,5 @@
 'use strict';
-/* global describe:true, it:true */
+/* global require:true, describe:true, it:true */
 
 var polyUtil = require('../Polyline.encoded.js');
 var chai = require('chai').should();
