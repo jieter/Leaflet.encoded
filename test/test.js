@@ -4,24 +4,25 @@
 var polyUtil = require('../Polyline.encoded.js');
 var chai = require('chai').should();
 
-var delta = 0.000001;
-
-var latlngs = [
-	[38.5, -120.5],
-	[40.7, -120.95],
-	[43.252, -126.453]
-];
-
-var encoded = '_p~iF~cn~U_ulLn{vA_mqNvxq`@';
-var encoded6 = '_izlhA~pvydF_{geC~{mZ_kwzCn`{nI';
-
 describe('Polyline', function () {
+	var latlngs, encoded, encoded6, delta;
 
 	var floats, smallFloats, encodedFloats;
 	var signedIntegers, encodedSignedIntegers;
 	var unsignedIntegers, encodedUnsignedIntegers;
 
 	beforeEach(function () {
+		delta = 0.000001;
+
+		latlngs = [
+			[38.5, -120.5],
+			[40.7, -120.95],
+			[43.252, -126.453]
+		];
+
+		encoded = '_p~iF~cn~U_ulLn{vA_mqNvxq`@';
+		encoded6 = '_izlhA~pvydF_{geC~{mZ_kwzCn`{nI';
+
 		floats = [0.00, 0.15, -0.01, -0.16, 0.16, 0.01];
 		smallFloats = [0.00000, 0.00015, -0.00001, -0.00016, 0.00016, 0.00001];
 		encodedFloats = '?]@^_@A';
