@@ -14,109 +14,186 @@
 (function () {
 	'use strict';
 
-	/* jshint bitwise:false */
-
-	// This function is very similar to Google's, but I added
-	// some stuff to deal with the double slash issue.
-	var encodeNumber = function (num) {
-		var encodeString = '';
-		var nextValue, finalValue;
-		while (num >= 0x20) {
-			nextValue = (0x20 | (num & 0x1f)) + 63;
-			encodeString += (String.fromCharCode(nextValue));
-			num >>= 5;
-		}
-		finalValue = num + 63;
-		encodeString += (String.fromCharCode(finalValue));
-		return encodeString;
-	};
-
-	// This one is Google's verbatim.
-	var encodeSignedNumber = function (num) {
-		var sgn_num = num << 1;
-		if (num < 0) {
-			sgn_num = ~(sgn_num);
-		}
-
-		return encodeNumber(sgn_num);
-	};
-
-	var getLat = function (latlng) {
-		if (latlng.lat) {
-			return latlng.lat;
+	var fillOptions = function (opt_options) {
+		var options = opt_options || {};
+		if (typeof options === 'number') {
+			// Legacy
+			options = { precision: options };
 		} else {
-			return latlng[0];
+			options.precision = options.precision || 5;
 		}
-	};
-	var getLng = function (latlng) {
-		if (latlng.lng) {
-			return latlng.lng;
-		} else {
-			return latlng[1];
-		}
+		options.factor = options.factor || Math.pow(10, options.precision);
+		options.dimension = options.dimension || 2;
+		return options;
 	};
 
 	var PolylineUtil = {
-		encode: function (latlngs, precision) {
-			var i, dlat, dlng;
-			var plat = 0;
-			var plng = 0;
-			var encoded_points = '';
+		encode: function (points, opt_options) {
+			var options = fillOptions(opt_options);
 
-			precision = Math.pow(10, precision || 5);
+			var flatPoints = [];
+			for (var i = 0, len = points.length; i < len; ++i) {
+				var point = points[i];
 
-			for (i = 0; i < latlngs.length; i++) {
-				var lat = getLat(latlngs[i]);
-				var lng = getLng(latlngs[i]);
-				var latFloored = Math.floor(lat * precision);
-				var lngFloored = Math.floor(lng * precision);
-				dlat = latFloored - plat;
-				dlng = lngFloored - plng;
-				plat = latFloored;
-				plng = lngFloored;
-				encoded_points += encodeSignedNumber(dlat) + encodeSignedNumber(dlng);
+				if (options.dimension === 2) {
+					flatPoints.push(point.lat || point[0]);
+					flatPoints.push(point.lng || point[1]);
+				} else {
+					for (var dim = 0; dim < options.dimension; ++dim) {
+						flatPoints.push(point[dim]);
+					}
+				}
 			}
-			return encoded_points;
+
+			return this.encodeDeltas(flatPoints, options);
 		},
 
-		decode: function (encoded, precision) {
-			var len = encoded.length;
-			var index = 0;
-			var latlngs = [];
-			var lat = 0;
-			var lng = 0;
+		decode: function (encoded, opt_options) {
+			var options = fillOptions(opt_options);
 
-			precision = Math.pow(10, -(precision || 5));
+			var flatPoints = this.decodeDeltas(encoded, options);
 
-			while (index < len) {
-				var b;
-				var shift = 0;
-				var result = 0;
-				do {
-					b = encoded.charCodeAt(index++) - 63;
-					result |= (b & 0x1f) << shift;
-					shift += 5;
-				} while (b >= 0x20);
-				var dlat = ((result & 1) ? ~(result >> 1) : (result >> 1));
-				lat += dlat;
+			var points = [];
+			for (var i = 0, len = flatPoints.length; i + (options.dimension - 1) < len;) {
+				var point = [];
 
-				shift = 0;
-				result = 0;
-				do {
-					b = encoded.charCodeAt(index++) - 63;
-					result |= (b & 0x1f) << shift;
-					shift += 5;
-				} while (b >= 0x20);
-				var dlng = ((result & 1) ? ~(result >> 1) : (result >> 1));
-				lng += dlng;
+				for (var dim = 0; dim < options.dimension; ++dim) {
+					point.push(flatPoints[i++]);
+				}
 
-				latlngs.push([lat * precision, lng * precision]);
+				points.push(point);
 			}
 
-			return latlngs;
+			return points;
+		},
+
+		encodeDeltas: function(numbers, opt_options) {
+			var options = fillOptions(opt_options);
+
+			var lastNumbers = [];
+
+			for (var i = 0, len = numbers.length; i < len;) {
+				for (var d = 0; d < options.dimension; ++d, ++i) {
+					var num = numbers[i];
+					var delta = num - (lastNumbers[d] || 0);
+					lastNumbers[d] = num;
+
+					numbers[i] = delta;
+				}
+			}
+
+			return this.encodeFloats(numbers, options);
+		},
+
+		decodeDeltas: function(encoded, opt_options) {
+			var options = fillOptions(opt_options);
+
+			var lastNumbers = [];
+
+			var numbers = this.decodeFloats(encoded, options);
+			for (var i = 0, len = numbers.length; i < len;) {
+				for (var d = 0; d < options.dimension; ++d, ++i) {
+					numbers[i] = lastNumbers[d] = numbers[i] + (lastNumbers[d] || 0);
+				}
+			}
+			return numbers;
+		},
+
+		encodeFloats: function(numbers, opt_options) {
+			var options = fillOptions(opt_options);
+
+			for (var i = 0, len = numbers.length; i < len; ++i) {
+				numbers[i] = Math.round(numbers[i] * options.factor);
+			}
+
+			return this.encodeSignedIntegers(numbers);
+		},
+
+		decodeFloats: function(encoded, opt_options) {
+			var options = fillOptions(opt_options);
+
+			var numbers = this.decodeSignedIntegers(encoded);
+			for (var i = 0, len = numbers.length; i < len; ++i) {
+				numbers[i] /= options.factor;
+			}
+
+			return numbers;
+		},
+
+		/* jshint bitwise:false */
+
+		encodeSignedIntegers: function(numbers) {
+			for (var i = 0, len = numbers.length; i < len; ++i) {
+				var num = numbers[i];
+				numbers[i] = (num < 0) ? ~(num << 1) : (num << 1);
+			}
+
+			return this.encodeUnsignedIntegers(numbers);
+		},
+
+		decodeSignedIntegers: function(encoded) {
+			var numbers = this.decodeUnsignedIntegers(encoded);
+
+			for (var i = 0, len = numbers.length; i < len; ++i) {
+				var num = numbers[i];
+				numbers[i] = (num & 1) ? ~(num >> 1) : (num >> 1);
+			}
+
+			return numbers;
+		},
+
+		encodeUnsignedIntegers: function(numbers) {
+			var encoded = '';
+			for (var i = 0, len = numbers.length; i < len; ++i) {
+				encoded += this.encodeUnsignedInteger(numbers[i]);
+			}
+			return encoded;
+		},
+
+		decodeUnsignedIntegers: function(encoded) {
+			var numbers = [];
+
+			var current = 0;
+			var shift = 0;
+
+			for (var i = 0, len = encoded.length; i < len; ++i) {
+				var b = encoded.charCodeAt(i) - 63;
+
+				current |= (b & 0x1f) << shift;
+
+				if (b < 0x20) {
+					numbers.push(current);
+					current = 0;
+					shift = 0;
+				} else {
+					shift += 5;
+				}
+			}
+
+			return numbers;
+		},
+
+		encodeSignedInteger: function (num) {
+			num = (num < 0) ? ~(num << 1) : (num << 1);
+			return this.encodeUnsignedInteger(num);
+		},
+
+		// This function is very similar to Google's, but I added
+		// some stuff to deal with the double slash issue.
+		encodeUnsignedInteger: function (num) {
+			var value, encoded = '';
+			while (num >= 0x20) {
+				value = (0x20 | (num & 0x1f)) + 63;
+				encoded += (String.fromCharCode(value));
+				num >>= 5;
+			}
+			value = num + 63;
+			encoded += (String.fromCharCode(value));
+			return encoded;
 		}
+
+		/* jshint bitwise:true */
 	};
-	/* jshint bitwise:true */
 
 	// Export Node module
 	if (typeof module === 'object' && typeof module.exports === 'object') {
