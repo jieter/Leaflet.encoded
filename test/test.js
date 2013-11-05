@@ -4,7 +4,7 @@
 var polyUtil = require('../Polyline.encoded.js');
 var chai = require('chai').should();
 
-describe('Polyline', function () {
+describe('PolyUtil', function () {
 	var latlngs, encoded, encoded6, delta;
 
 	var floats, smallFloats, encodedFloats;
@@ -34,69 +34,95 @@ describe('Polyline', function () {
 		encodedUnsignedIntegers = '?]@^_@AmD';
 	});
 
-	it('encodes', function () {
-		polyUtil.encode(latlngs).should.eql(encoded);
+	describe('encoding', function () {
+		it('simple 2d line', function () {
+			polyUtil.encode(latlngs).should.eql(encoded);
+		});
+
+		it('with precision = 6', function () {
+			polyUtil.encode(latlngs, 6).should.eql(encoded6);
+		});
+
+		it('integers with dimension = 1', function () {
+			polyUtil.encodeUnsignedIntegers(unsignedIntegers, {
+				dimension: 1
+			}).should.eql(encodedUnsignedIntegers);
+
+			polyUtil.encodeSignedIntegers(signedIntegers, {
+				dimension: 1
+			}).should.eql(encodedSignedIntegers);
+		});
+
+		it('floats with dimension = 1', function () {
+			polyUtil.encodeFloats(smallFloats, {
+				dimension: 1
+			}).should.eql(encodedFloats);
+
+			polyUtil.encodeFloats(floats, {
+				factor: 1e2,
+				dimension: 1
+			}).should.eql(encodedFloats);
+		});
 	});
 
-	it('encodes with precision = 6', function () {
-		polyUtil.encode(latlngs, 6).should.eql(encoded6);
+	describe('decoding', function () {
+		it('2D line', function () {
+			var decoded = polyUtil.decode(encoded);
+
+			// TODO membersCloseTo assertion
+			for (var i in decoded) {
+				decoded[i][0].should.be.closeTo(latlngs[i][0], delta);
+				decoded[i][1].should.be.closeTo(latlngs[i][1], delta);
+			}
+		});
+
+		it('with precision = 6', function () {
+			var decoded = polyUtil.decode(encoded6, 6);
+
+			for (var i in decoded) {
+				decoded[i][0].should.be.closeTo(latlngs[i][0], delta);
+				decoded[i][1].should.be.closeTo(latlngs[i][1], delta);
+			}
+		});
+
+		it('integers with dimension = 1', function () {
+			polyUtil.decodeUnsignedIntegers(encodedUnsignedIntegers)
+				.should.eql(unsignedIntegers);
+
+			polyUtil.decodeSignedIntegers(encodedSignedIntegers)
+				.should.eql(signedIntegers);
+		});
+
+		it('floats with dimension = 1', function () {
+			polyUtil.decodeFloats(encodedFloats, {
+				dimension: 1
+			}).should.eql(smallFloats);
+
+			polyUtil.decodeFloats(encodedFloats, {
+				factor: 1e2,
+				dimension: 1
+			}).should.eql(floats);
+		});
 	});
 
-	it('encodes integers with dimension = 1', function () {
-		polyUtil.encodeUnsignedIntegers(unsignedIntegers, {
-			dimension: 1
-		}).should.eql(encodedUnsignedIntegers);
+	describe('encode -> decode', function () {
+		it('simple latlngs', function () {
+			var encoded = polyUtil.encode(latlngs);
+			polyUtil.decode(encoded).should.eql(latlngs);
+		});
 
-		polyUtil.encodeSignedIntegers(signedIntegers, {
-			dimension: 1
-		}).should.eql(encodedSignedIntegers);
-	});
+		it('latlngs height', function () {
+			var xyz = [
+				[38.5, -120.5, 3],
+				[40.7, -120.95, 4],
+				[43.252, -126.453, 5]
+			];
+			var options = {
+				dimension: 3
+			};
 
-	it('encodes floats with dimension = 1', function () {
-		polyUtil.encodeFloats(smallFloats, {
-			dimension: 1
-		}).should.eql(encodedFloats);
-
-		polyUtil.encodeFloats(floats, {
-			factor: 1e2,
-			dimension: 1
-		}).should.eql(encodedFloats);
-	});
-
-	it('decodes', function () {
-		var decoded = polyUtil.decode(encoded);
-
-		for (var i in decoded) {
-			decoded[i][0].should.be.closeTo(latlngs[i][0], delta);
-		}
-	});
-
-	it('decodes with precision = 6', function () {
-		var decoded = polyUtil.decode(encoded6, 6);
-
-		for (var i in decoded) {
-			decoded[i][0].should.be.closeTo(latlngs[i][0], delta);
-		}
-	});
-
-	it('decodes integers with dimension = 1', function () {
-		polyUtil.decodeUnsignedIntegers(encodedUnsignedIntegers, {
-			dimension: 1
-		}).should.eql(unsignedIntegers);
-
-		polyUtil.decodeSignedIntegers(encodedSignedIntegers, {
-			dimension: 1
-		}).should.eql(signedIntegers);
-	});
-
-	it('decodes floats with dimension = 1', function () {
-		polyUtil.decodeFloats(encodedFloats, {
-			dimension: 1
-		}).should.eql(smallFloats);
-
-		polyUtil.decodeFloats(encodedFloats, {
-			factor: 1e2,
-			dimension: 1
-		}).should.eql(floats);
+			var encoded = polyUtil.encode(xyz, options);
+			polyUtil.decode(encoded, options).should.eql(xyz);
+		});
 	});
 });
