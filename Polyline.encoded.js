@@ -1,35 +1,36 @@
 /*
- * L.PolylineUtil contains utilify functions for polylines, two methods
- * are added to the L.Polyline object to support creation of polylines
- * from an encoded string and converting existing polylines to an
- * encoded string.
+ * Utility functions to decode/encode numbers and array's of numbers
+ * to/from strings (Google maps polyline encoding)
  *
- *  - L.Polyline.fromEncoded(encoded [, options]) returns a L.Polyline
- *  - L.Polyline.encodePath() returns a string
+ * Extends the L.Polyline and L.Polygon object with methods to convert
+ * to and create from these strings.
  *
- * Actual code from:
- * http://facstaff.unca.edu/mcmcclur/GoogleMaps/EncodePolyline/\
+ * Jan Pieter Waagmeester <jieter@jieter.nl>
+ *
+ * Original code from:
+ * http://facstaff.unca.edu/mcmcclur/GoogleMaps/EncodePolyline/
  */
 
 (function () {
 	'use strict';
 
-	var fillOptions = function (opt_options) {
-		var options = opt_options || {};
+	var defaultOptions = function (options) {
 		if (typeof options === 'number') {
 			// Legacy
 			options = { precision: options };
 		} else {
-			options.precision = options.precision || 5;
+			options = options || {};
 		}
+
+		options.precision = options.precision || 5;
 		options.factor = options.factor || Math.pow(10, options.precision);
 		options.dimension = options.dimension || 2;
 		return options;
 	};
 
 	var PolylineUtil = {
-		encode: function (points, opt_options) {
-			var options = fillOptions(opt_options);
+		encode: function (points, options) {
+			options = defaultOptions(options);
 
 			var flatPoints = [];
 			for (var i = 0, len = points.length; i < len; ++i) {
@@ -48,8 +49,8 @@
 			return this.encodeDeltas(flatPoints, options);
 		},
 
-		decode: function (encoded, opt_options) {
-			var options = fillOptions(opt_options);
+		decode: function (encoded, options) {
+			options = defaultOptions(options);
 
 			var flatPoints = this.decodeDeltas(encoded, options);
 
@@ -67,8 +68,8 @@
 			return points;
 		},
 
-		encodeDeltas: function(numbers, opt_options) {
-			var options = fillOptions(opt_options);
+		encodeDeltas: function(numbers, options) {
+			options = defaultOptions(options);
 
 			var lastNumbers = [];
 
@@ -85,8 +86,8 @@
 			return this.encodeFloats(numbers, options);
 		},
 
-		decodeDeltas: function(encoded, opt_options) {
-			var options = fillOptions(opt_options);
+		decodeDeltas: function(encoded, options) {
+			options = defaultOptions(options);
 
 			var lastNumbers = [];
 
@@ -96,11 +97,12 @@
 					numbers[i] = lastNumbers[d] = numbers[i] + (lastNumbers[d] || 0);
 				}
 			}
+
 			return numbers;
 		},
 
-		encodeFloats: function(numbers, opt_options) {
-			var options = fillOptions(opt_options);
+		encodeFloats: function(numbers, options) {
+			options = defaultOptions(options);
 
 			for (var i = 0, len = numbers.length; i < len; ++i) {
 				numbers[i] = Math.round(numbers[i] * options.factor);
@@ -109,8 +111,8 @@
 			return this.encodeSignedIntegers(numbers);
 		},
 
-		decodeFloats: function(encoded, opt_options) {
-			var options = fillOptions(opt_options);
+		decodeFloats: function(encoded, options) {
+			options = defaultOptions(options);
 
 			var numbers = this.decodeSignedIntegers(encoded);
 			for (var i = 0, len = numbers.length; i < len; ++i) {
@@ -189,6 +191,7 @@
 			}
 			value = num + 63;
 			encoded += (String.fromCharCode(value));
+
 			return encoded;
 		}
 
