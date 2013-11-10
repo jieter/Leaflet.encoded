@@ -23,11 +23,12 @@
   "readmeFilename": "README.md",
   "devDependencies": {
     "mocha": "~1.12.0",
-    "chai": "~1.8.0",
+    "chai": "~1.8.1",
     "grunt": "~0.4.1",
     "grunt-contrib-jshint": "~0.7.0",
     "grunt-mocha-test": "~0.7.0",
     "grunt-contrib-watch": "~0.5.3",
-    "grunt-notify": "~0.2.14"
+    "grunt-notify": "~0.2.14",
+    "chai-leaflet": "0.0.3"
   }
 }

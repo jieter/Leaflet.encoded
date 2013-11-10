@@ -2,7 +2,9 @@
 /* global require:true, describe:true, beforeEach:true, it:true */
 
 var polyUtil = require('../Polyline.encoded.js');
-var chai = require('chai').should();
+var chai = require('chai')
+	.use(require('chai-leaflet'))
+	.should();
 
 describe('PolyUtil', function () {
 	var latlngs, encoded, encoded6, delta;
@@ -69,20 +71,13 @@ describe('PolyUtil', function () {
 		it('2D line', function () {
 			var decoded = polyUtil.decode(encoded);
 
-			// TODO membersCloseTo assertion
-			for (var i in decoded) {
-				decoded[i][0].should.be.closeTo(latlngs[i][0], delta);
-				decoded[i][1].should.be.closeTo(latlngs[i][1], delta);
-			}
+			decoded.should.be.deepAlmostEqual(latlngs, delta);
 		});
 
 		it('with precision = 6', function () {
 			var decoded = polyUtil.decode(encoded6, 6);
 
-			for (var i in decoded) {
-				decoded[i][0].should.be.closeTo(latlngs[i][0], delta);
-				decoded[i][1].should.be.closeTo(latlngs[i][1], delta);
-			}
+			decoded.should.be.deepAlmostEqual(latlngs, delta);
 		});
 
 		it('integers with dimension = 1', function () {
