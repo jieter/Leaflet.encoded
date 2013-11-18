@@ -29,7 +29,7 @@
     "grunt-mocha-test": "~0.7.0",
     "grunt-contrib-watch": "~0.5.3",
     "grunt-notify": "~0.2.14",
-    "chai-leaflet": "0.0.3",
+    "chai-leaflet": "0.0.7",
     "matchdep": "~0.3.0"
   }
 }
