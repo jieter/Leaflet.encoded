@@ -120,4 +120,22 @@ describe('PolyUtil', function () {
 			polyUtil.decode(encoded, options).should.eql(xyz);
 		});
 	});
+
+	describe('some strings', function () {
+		var fs = require('fs');
+
+		var path = __dirname + '/testcases/';
+
+		fs.readdirSync(path).filter(function (filename) {
+			return filename.match('.json$');
+		}).forEach(function (filename) {
+			var testcase = JSON.parse(fs.readFileSync(path + filename));
+			it(testcase.description, function () {
+				polyUtil.decode(testcase.encoded)
+					.should.deepAlmostEqual(testcase.expected, testcase.delta);
+			});
+		});
+
+
+	});
 });
