@@ -132,10 +132,11 @@ describe('PolyUtil', function () {
 			var testcase = JSON.parse(fs.readFileSync(path + filename));
 
 			it(testcase.description, function () {
-				var encoded = testcase.encoded
+				var encoded = testcase.encoded;
 
 				polyUtil.decode(encoded)
 					.should.deepAlmostEqual(testcase.expected, testcase.delta);
+
 			});
 		});
 	});
