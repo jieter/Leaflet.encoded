@@ -3,49 +3,35 @@
 
 This Leaflet plugin extends the [Leaflet](https://github.com/CloudMade/Leaflet) API with functions to encode en decode Google maps polyline encoding. It is just a convenient way to use the algorithm from http://facstaff.unca.edu/mcmcclur/GoogleMaps/EncodePolyline/ in Leaflet.
 
+## Escaping backslashes
 *Make sure to always escape the backslashes in encoded strings!* Not doing so will result in the backslash to be interpreted as an escape character, yielding wrong results.
 
-### Provided methods
+## API
+### Utility methods
 
-<table>
-<tr>
-	<th colspan="2">Utility methods</th>
-</tr>
-<tr>
-	<td><code>L.PolylineUtil.encode(latlngs [, precision])</code></td>
-	<td>Encode an array of <code>L.LatLng</code> objects,
-	or an array of arrays.</td>
-</tr>
-<tr>
-	<td><code>L.PolylineUtil.decode(encoded [, precision])</code></td>
-	<td>Decode the string <code>encoded</code> to an array of <code>[lat, lng]</code>-arrays.</td>
-</tr>
+#### `L.PolylineUtil.encode(latlngs [, precision])`
+Encode an array of `L.LatLng` objects, or an array of arrays.
 
-<tr>
-	<th colspan="2">Extensions for <code>L.Polyline</code></th>
-</tr>
-<tr>
-	<td><code>L.Polyline.fromEncoded(encoded [, options])</code></td>
-	<td>Construct a <code>L.Polyline</code> from a string, with optional <code>options</code> object.</td>
-</tr>
-<tr>
-	<td><code>L.Polyline.encodePath()</code></td><td>Return an encoded string for the current Polyline.</td>
-</tr>
+#### `L.PolylineUtil.decode(encoded [, precision])`
+Decode the string `encoded` to an array of `[lat, lng]`-arrays.
 
-<tr>
-	<th colspan="2">Extensions for <code>L.Polygon</code></th>
-</tr>
-<tr>
-	<td><code>L.Polygon.fromEncoded(encoded [, options])</code></td>
-	<td>Construct a <code>L.Polygon</code> from a string, with optional <code>options</code> object.</td>
-</tr>
-<tr>
-	<td><code>L.Polygon.encodePath()</code></td><td>Return an encoded string for the current Polygon.</td>
-</tr>
+### Extensions for `L.Polyline`
 
-</table>
+#### `L.Polyline.fromEncoded(encoded [, options])`
+Construct a `L.Polyline` from a string, with optional `options` object. Backslashes in strings should be properly escaped.
 
-### Code examples
+#### `L.Polyline.encodePath()`
+Return an encoded string for the current Polyline.
+
+### Extensions for `L.Polygon`
+
+#### `L.Polygon.fromEncoded(encoded [, options])`
+Construct a `L.Polygon` from a string, with optional `options` object. Backslashes in strings should be properly escaped.
+
+#### `L.Polygon.encodePath()`
+Return an encoded string for the current Polygon.
+
+## Code examples
 After loading ```leaflet.js```, ```src/Polyline.encoded.js``` should be included.
 
 ### Encoding
@@ -79,7 +65,6 @@ var polyline = new L.Polyline(PolylineUtil.decode(encoded, 6));
 // prints an array of 3 LatLng objects.
 console.log(polyline.getLatLngs());
 ```
-
 
 ### Node package
 You can use `encode()` and `decode()` in your Nodejs scripts:
