@@ -1,7 +1,10 @@
 {
 	"description": "NaN generated: https://github.com/jieter/Leaflet.encoded/issues/5",
-	"encoded": "c{|xHbo|OSnFrSjW~M{EnFwVz@wy@vQsq@cBoUzJ{EzObBrIcLfE~C~H{Y~C~CfOgY{EjM{EgTcLzTsSwQcGf@IoKgJSkMsb@RkRvVkRDon@SooBvBsXbGgE{@{EfE{EwLsXgEo{AcVgw@kRc|A_q@seAcLg@bBvQkCnKcGjCwQsSkM?cL{YjHrS{J~HgOwBgOjf@{Jju@cLjRcGz^oUjW{Tni@f@jRsIjwBjf@sNbo@wG~iArDnlArIj\\bGfr@bQf^~WrSnPvVfOjHnURzc@cQbQzc@nUrtAbBfYkC~M~HnZ~Mz^f^_N~MrDbBwQkWsXR{E",
-	"delta": 0.01,
+	"comment": "Expected array generated using google maps API",
+
+	"encoded": "c{|xHbo|OSnFrSjW~M{EnFwVz@wy@vQsq@cBoUzJ{EzObBrIcLfE~C~H{Y~C~CfOgY{EjM{EgTcLzTsSwQcGf@IoKgJSkMsb@RkRvVkRDon@SooBvBsXbGgE{@{EfE{EwLsXgEo{AcVgw@kRc|A_q@seAcLg@bBvQkCnKcGjCwQsSkM?cL{YjHrS{J~HgOwBgOjf@{Jju@cLjRcGz^oUjW{Tni@f@jRsIj\\wBjf@sNbo@wG~iArDnlArIj\bGfr@bQf^~WrSnPvVfOjHnURzc@cQbQzc@nUrtAbBfYkC~M~HnZ~Mz^f^_N~MrDbBwQkWsXR{E",
+
+	"delta": 0.001,
 	"expected": [
 		[51.434900000000006, -2.7725000000000004],
 		[51.435, -2.7737000000000003],

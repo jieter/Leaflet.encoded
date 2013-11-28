@@ -121,7 +121,7 @@ describe('PolyUtil', function () {
 		});
 	});
 
-	describe('some strings', function () {
+	describe('Some strings', function () {
 		var fs = require('fs');
 
 		var path = __dirname + '/testcases/';
@@ -130,8 +130,11 @@ describe('PolyUtil', function () {
 			return filename.match('.json$');
 		}).forEach(function (filename) {
 			var testcase = JSON.parse(fs.readFileSync(path + filename));
+
 			it(testcase.description, function () {
-				polyUtil.decode(testcase.encoded)
+				var encoded = testcase.encoded
+
+				polyUtil.decode(encoded)
 					.should.deepAlmostEqual(testcase.expected, testcase.delta);
 			});
 		});
