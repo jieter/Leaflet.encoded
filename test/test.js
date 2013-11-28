@@ -1,5 +1,5 @@
 'use strict';
-/* global require:true, describe:true, beforeEach:true, it:true */
+/* global __dirname:true, require:true, describe:true, beforeEach:true, it:true */
 
 var polyUtil = require('../Polyline.encoded.js');
 var chai = require('chai')
@@ -135,7 +135,5 @@ describe('PolyUtil', function () {
 					.should.deepAlmostEqual(testcase.expected, testcase.delta);
 			});
 		});
-
-
 	});
 });
