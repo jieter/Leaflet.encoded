@@ -1,0 +1,28 @@
+{
+  "name": "Leaflet.encoded",
+  "version": "0.0.4",
+  "homepage": "https://github.com/jieter/Leaflet.encoded",
+  "authors": [
+    "Jan Pieter Waagmeester <jieter@jieter.nl>"
+  ],
+  "description": "Encoding and decoding of Google's polyline encoding format",
+  "main": "Polyline.encoded.js",
+  "moduleType": [
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "leaflet",
+    "polyline",
+    "encoding",
+    "decoding"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
