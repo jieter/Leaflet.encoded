@@ -7,6 +7,9 @@
   ],
   "description": "Encoding and decoding of Google's polyline encoding format",
   "main": "Polyline.encoded.js",
+  "dependencies": {
+    "leaflet": ""
+  },
   "moduleType": [
     "globals",
     "node"
