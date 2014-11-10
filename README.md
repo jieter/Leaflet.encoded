@@ -1,6 +1,6 @@
 # Support encoded polylines in Leaflet
 
-This Leaflet plugin extends the [Leaflet](https://github.com/CloudMade/Leaflet) API with functions to encode en decode Google maps polyline encoding. It is just a convenient way to use the algorithm from http://facstaff.unca.edu/mcmcclur/GoogleMaps/EncodePolyline/ in Leaflet.
+This Leaflet plugin extends the [Leaflet](https://github.com/Leaflet/Leaflet) API with functions to encode and decode Google maps polyline encoding. It is just a convenient way to use the algorithm from https://developers.google.com/maps/documentation/utilities/polylinealgorithm in Leaflet.
 
 ## Escaping backslashes
 *Make sure to always escape the backslashes in encoded strings!* Not doing so will result in the backslash to be interpreted as an escape character, yielding wrong results.
