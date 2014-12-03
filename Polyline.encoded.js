@@ -9,6 +9,7 @@
  *
  * Original code from:
  * http://facstaff.unca.edu/mcmcclur/GoogleMaps/EncodePolyline/
+ * (which is down as of december 2014)
  */
 
 (function () {

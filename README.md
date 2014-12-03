@@ -1,6 +1,8 @@
 # Support encoded polylines in Leaflet
 
-This Leaflet plugin extends the [Leaflet](https://github.com/CloudMade/Leaflet) API with functions to encode en decode Google maps polyline encoding. It is just a convenient way to use the algorithm from http://facstaff.unca.edu/mcmcclur/GoogleMaps/EncodePolyline/ in Leaflet.
+This Leaflet plugin extends the [Leaflet](https://github.com/Leaflet/Leaflet) API with functions to encode and decode Google maps polyline encoding. It is just a convenient way to use the Google polyline encoding algorithm in Leaflet.
+
+The algorithm is described in the [Google maps API Documentation](https://developers.google.com/maps/documentation/utilities/polylinealgorithm).
 
 ## Escaping backslashes
 *Make sure to always escape the backslashes in encoded strings!* Not doing so will result in the backslash to be interpreted as an escape character, yielding wrong results.
@@ -9,32 +11,32 @@ This Leaflet plugin extends the [Leaflet](https://github.com/CloudMade/Leaflet) 
 ### Utility methods
 
 - `L.PolylineUtil.encode(latlngs [, precision])`
-  
+
   Encode an array of `L.LatLng` objects, or an array of arrays.
 
 
 - `L.PolylineUtil.decode(encoded [, precision])`
-  
+
   Decode the string `encoded` to an array of `[lat, lng]`-arrays.
 
 ### Extensions for `L.Polyline`
 
 - `L.Polyline.fromEncoded(encoded [, options])`
-  
+
   Construct a new `L.Polyline` from a string, with optional `options` object. Backslashes in strings should be properly escaped.
 
 - `L.Polyline.encodePath()`
-  
+
   Return an encoded string for the current Polyline.
 
 ### Extensions for `L.Polygon`
 
 - `L.Polygon.fromEncoded(encoded [, options])`
-  
+
   Construct a new `L.Polygon` from a string, with optional `options` object. Backslashes in strings should be properly escaped.
 
 - `L.Polygon.encodePath()`
-  
+
   Return an encoded string for the current Polygon.
 
 ## Code examples
