@@ -7,7 +7,7 @@ var chai = require('chai')
 	.should();
 
 describe('PolyUtil', function () {
-	var latlngs, encoded, encoded6, delta;
+	var latlngs, encoded, encoded6, encoded5, delta;
 
 	var floats, smallFloats, encodedFloats;
 	var signedIntegers, encodedSignedIntegers;
@@ -24,6 +24,7 @@ describe('PolyUtil', function () {
 
 		encoded = '_p~iF~cn~U_ulLn{vA_mqNvxq`@';
 		encoded6 = '_izlhA~pvydF_{geC~{mZ_kwzCn`{nI';
+		encoded5 = 'ehukEveaqO|D~Laf@YiZw[oOgQqGeIqE_GeXu_@aOiKkCkMbGrDxIzF`Ct@~@L`FYhAMrNoFfEoArIwBvGwBvB}@jHcBnFcBz@g@jMsDzJ_DfEoAf@SRjCrDbQbBg@vB{@jCoArDg@bBfE|CvKtIbWrDrNvBnAvGfEvBjGqNzNcMtDgN`I_LpM';
 
 		floats = [0.00, 0.15, -0.01, -0.16, 0.16, 0.01];
 		smallFloats = [0.00000, 0.00015, -0.00001, -0.00016, 0.00016, 0.00001];
@@ -78,6 +79,11 @@ describe('PolyUtil', function () {
 			var decoded = polyUtil.decode(encoded6, 6);
 
 			decoded.should.be.deepAlmostEqual(latlngs, delta);
+		});
+
+		it('should respect the precision in the decoded coordinates', function () {
+			var decoded = polyUtil.decode(encoded5, 5);
+			decoded[0].should.eql(decoded[decoded.length-1]);
 		});
 
 		it('integers with dimension = 1', function () {
