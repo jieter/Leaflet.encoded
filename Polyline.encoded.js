@@ -18,7 +18,9 @@
 	var defaultOptions = function (options) {
 		if (typeof options === 'number') {
 			// Legacy
-			options = { precision: options };
+			options = {
+				precision: options
+			};
 		} else {
 			options = options || {};
 		}

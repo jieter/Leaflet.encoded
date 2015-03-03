@@ -2,7 +2,8 @@
 /* global __dirname:true, require:true, describe:true, beforeEach:true, it:true */
 
 var polyUtil = require('../Polyline.encoded.js');
-var chai = require('chai')
+
+require('chai')
 	.use(require('chai-leaflet'))
 	.should();
 
@@ -124,7 +125,7 @@ describe('PolyUtil', function () {
 	describe('Some strings', function () {
 		var fs = require('fs');
 
-		var path = __dirname + '/testcases/';
+		var path = require('path').join(__dirname, '/testcases/');
 
 		fs.readdirSync(path).filter(function (filename) {
 			return filename.match('.json$');
