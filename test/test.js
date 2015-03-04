@@ -83,7 +83,7 @@ describe('PolyUtil', function () {
 
 		it('should respect the precision in the decoded coordinates', function () {
 			var decoded = polyUtil.decode(encoded5, 5);
-			decoded[0].should.eql(decoded[decoded.length-1]);
+			decoded[0].should.eql(decoded[decoded.length - 1]);
 		});
 
 		it('integers with dimension = 1', function () {
