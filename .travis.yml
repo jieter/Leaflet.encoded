@@ -1,7 +1,12 @@
 language: node_js
 
 node_js:
-  - "0.10"
+	- "iojs"
+	- "0.10"
+	- "0.12"
 
-before_script:
-  - npm install grunt-cli
+notifications:
+	email: false
+
+git:
+	depth: 10
