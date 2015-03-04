@@ -24,8 +24,8 @@ describe('PolyUtil', function () {
 		];
 
 		encoded = '_p~iF~cn~U_ulLn{vA_mqNvxq`@';
-		encoded6 = '_izlhA~pvydF_{geC~{mZ_kwzCn`{nI';
 		encoded5 = 'ehukEveaqO|D~Laf@YiZw[oOgQqGeIqE_GeXu_@aOiKkCkMbGrDxIzF`Ct@~@L`FYhAMrNoFfEoArIwBvGwBvB}@jHcBnFcBz@g@jMsDzJ_DfEoAf@SRjCrDbQbBg@vB{@jCoArDg@bBfE|CvKtIbWrDrNvBnAvGfEvBjGqNzNcMtDgN`I_LpM';
+		encoded6 = '_izlhA~pvydF_{geC~{mZ_kwzCn`{nI';
 
 		floats = [0.00, 0.15, -0.01, -0.16, 0.16, 0.01];
 		smallFloats = [0.00000, 0.00015, -0.00001, -0.00016, 0.00016, 0.00001];
