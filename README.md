@@ -69,7 +69,7 @@ console.log(polyline.getLatLngs());
 Use a decoding precision of 6 to decode OSRM Routing Engine geometries
 ```javascript
 var encoded = "_izlhA~pvydF_{geC~{mZ_kwzCn`{nI";
-var polyline = new L.Polyline(L.PolylineUtil.decode(encoded, 6));
+var polyline = L.polyline(L.PolylineUtil.decode(encoded, 6));
 
 // prints an array of 3 LatLng objects.
 console.log(polyline.getLatLngs());
