@@ -1,40 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Leaflet L.Polyline.encodePath()</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet L.Polyline.encodePath()</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
-	<script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.js"></script>
 </head>
 <body>
-	<div id="map" style="width: 600px; height: 400px"></div>
-	<pre id="encoded" style= "width: 600px; height: 20px; padding: 10px; font-size: 20px;"><strong>Encoded:</strong> </pre>
+    <div id="map" style="width: 600px; height: 400px"></div>
+    <pre id="encoded" style= "width: 600px; height: 20px; padding: 10px; font-size: 20px;"><strong>Encoded:</strong> </pre>
 
-	<script src="../Polyline.encoded.js"></script>
-	<script>
-		var map = new L.Map('map');
+    <script src="../Polyline.encoded.js"></script>
+    <script>
+        var map = new L.Map('map');
 
-		L.tileLayer(
-			'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-			{
-				attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-				maxZoom: 18
-			}
-		).addTo(map);
+        L.tileLayer(
+            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            {
+                attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+                maxZoom: 18
+            }
+        ).addTo(map);
 
-		var latlngs = [
-			[38.5, -120.5],
-			[40.7, -120.95],
-			[43.252, -126.453]
-		];
+        var latlngs = [
+            [38.5, -120.5],
+            [40.7, -120.95],
+            [43.252, -126.453]
+        ];
 
-		var polyline = new L.Polyline(latlngs).addTo(map);
+        var polyline = new L.Polyline(latlngs).addTo(map);
 
-		map.fitBounds(polyline.getBounds());
+        map.fitBounds(polyline.getBounds());
 
-		L.DomUtil.get('encoded').innerHTML += polyline.encodePath();
-	</script>
+        L.DomUtil.get('encoded').innerHTML += polyline.encodePath();
+    </script>
 </body>
 </html>
