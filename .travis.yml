@@ -1,9 +1,7 @@
 language: node_js
 
 node_js:
-    - "iojs"
-    - "0.10"
-    - "0.12"
+    - "node"
 
 notifications:
     email: false
