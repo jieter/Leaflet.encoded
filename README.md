@@ -53,7 +53,7 @@ var latlngs = [
 ];
 var polyline = L.polyline(latlngs);
 
-//prints "_p~iF~cn~U_ulLn{vA_mqNvxq`@" to the console
+// prints "_p~iF~cn~U_ulLn{vA_mqNvxq`@" to the console
 console.log(polyline.encodePath());
 ```
 
@@ -66,10 +66,10 @@ var polyline = L.Polyline.fromEncoded(encoded);
 console.log(polyline.getLatLngs());
 ```
 
-Use a decoding precision of 6 to decode OSRM Routing Engine geometries
+Use a decoding precision of 5 to decode OSRM Routing Engine geometries
 ```javascript
 var encoded = "_izlhA~pvydF_{geC~{mZ_kwzCn`{nI";
-var polyline = L.polyline(L.PolylineUtil.decode(encoded, 6));
+var polyline = L.polyline(L.PolylineUtil.decode(encoded, 5));
 
 // prints an array of 3 LatLng objects.
 console.log(polyline.getLatLngs());
