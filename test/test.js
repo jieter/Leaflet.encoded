@@ -8,7 +8,7 @@ require('chai-leaflet')
 chai.should();
 
 describe('PolyUtil', function () {
-    var latlngs, encoded, encoded6, encoded5, delta;
+    var latlngs, latlngs6, encoded, encoded6, encoded5, delta;
 
     var floats, smallFloats, encodedFloats;
     var signedIntegers, encodedSignedIntegers;
@@ -21,6 +21,16 @@ describe('PolyUtil', function () {
             [38.5, -120.5],
             [40.7, -120.95],
             [43.252, -126.453]
+        ];
+
+        latlngs6 = [
+            [0.000000, 0.000000],
+            [0.000006, 0.000006],
+            [0.000012, 0.000012],
+            [0.000018, 0.000018],
+            [0.000024, 0.000024],
+            [0.000030, 0.000030],
+            [0.000000, 0.000000]
         ];
 
         encoded = '_p~iF~cn~U_ulLn{vA_mqNvxq`@';
@@ -111,6 +121,11 @@ describe('PolyUtil', function () {
         it('simple latlngs', function () {
             var encoded = polyUtil.encode(latlngs);
             polyUtil.decode(encoded).should.eql(latlngs);
+        });
+
+        it('with precision 6 latlngs to catch accumulating rounding errors', function () {
+            var encoded = polyUtil.encode(latlngs6);
+            polyUtil.decode(encoded).pop().should.eql(latlngs6.pop());
         });
 
         it('latlngs height', function () {
