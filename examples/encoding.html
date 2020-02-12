@@ -5,8 +5,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.css" />
-    <script src="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
 </head>
 <body>
     <div id="map" style="width: 600px; height: 400px"></div>
@@ -14,7 +14,7 @@
 
     <script src="../Polyline.encoded.js"></script>
     <script>
-        var map = new L.Map('map');
+        var map = L.map('map');
 
         L.tileLayer(
             'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -27,10 +27,11 @@
         var latlngs = [
             [38.5, -120.5],
             [40.7, -120.95],
-            [43.252, -126.453]
+            [43.252, -126.453],
+            [45, -120]
         ];
 
-        var polyline = new L.Polyline(latlngs).addTo(map);
+        var polyline = L.polyline(latlngs).addTo(map);
 
         map.fitBounds(polyline.getBounds());
 

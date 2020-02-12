@@ -2,7 +2,7 @@
 
 This Leaflet plugin extends Leaflet with functions to encode to and decode from Google maps polyline encoding.
 
-- Works with [Leaflet](https://github.com/Leaflet/Leaflet) v0.7.7 and v1.0.0-rc.1
+- Works with [Leaflet](https://github.com/Leaflet/Leaflet) v0.7.7 and v1.x
 - Algorithm described in the [Google maps API Documentation](https://developers.google.com/maps/documentation/utilities/polylinealgorithm).
 
 ## Escaping backslashes
