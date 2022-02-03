@@ -75,14 +75,15 @@
             options = defaultOptions(options);
 
             var lastNumbers = [];
-
             for (var i = 0, len = numbers.length; i < len;) {
                 for (var d = 0; d < options.dimension; ++d, ++i) {
-                    var num = numbers[i].toFixed(options.precision);
-                    var delta = num - (lastNumbers[d] || 0);
-                    lastNumbers[d] = num;
+                    if(numbers[i]) {
+                        var num = numbers[i].toFixed(options.precision);
+                        var delta = num - (lastNumbers[d] || 0);
+                        lastNumbers[d] = num;
 
-                    numbers[i] = delta;
+                        numbers[i] = delta;
+                    }
                 }
             }
 
