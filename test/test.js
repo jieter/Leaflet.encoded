@@ -8,7 +8,7 @@ require('chai-leaflet')
 chai.should();
 
 describe('PolyUtil', function () {
-    var latlngs, latlngs6, encoded, encoded6, encoded5, delta;
+    var latlngs, latlngs6, encoded, encoded6, encoded5, delta, latlngsUndefined;
 
     var floats, smallFloats, encodedFloats;
     var signedIntegers, encodedSignedIntegers;
@@ -21,6 +21,13 @@ describe('PolyUtil', function () {
             [38.5, -120.5],
             [40.7, -120.95],
             [43.252, -126.453]
+        ];
+
+        latlngsUndefined = [
+            [38.5, -120.5],
+            [40.7, -120.95],
+            [43.252, -126.453],
+            [undefined, undefined]
         ];
 
         latlngs6 = [
@@ -84,6 +91,12 @@ describe('PolyUtil', function () {
             var decoded = polyUtil.decode(encoded);
 
             decoded.should.be.deepAlmostEqual(latlngs, delta);
+        });
+
+        it('2D line with undefined values', function () {
+            var decoded = polyUtil.decode(encoded);
+
+            decoded.should.be.deepAlmostEqual(latlngsUndefined, delta);
         });
 
         it('with precision = 6', function () {
