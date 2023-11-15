@@ -206,12 +206,12 @@
     if (typeof L === 'object') {
         if (!(L.Polyline.prototype.fromEncoded)) {
             L.Polyline.fromEncoded = function (encoded, options) {
-                return L.polyline(PolylineUtil.decode(encoded), options);
+                return L.polyline(PolylineUtil.decode(encoded, options));
             };
         }
         if (!(L.Polygon.prototype.fromEncoded)) {
             L.Polygon.fromEncoded = function (encoded, options) {
-                return L.polygon(PolylineUtil.decode(encoded), options);
+                return L.polygon(PolylineUtil.decode(encoded, options));
             };
         }
 
